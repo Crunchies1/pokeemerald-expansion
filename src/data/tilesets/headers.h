@@ -841,3 +841,47 @@ const struct Tileset gTileset_PorytilesPrimaryTest =
     .metatileAttributes = gMetatileAttributes_PorytilesPrimaryTest,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_Desert =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_Desert,
+    .palettes = gTilesetPalettes_Desert,
+    .metatiles = gMetatiles_Desert,
+    .metatileAttributes = gMetatileAttributes_Desert,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Small_Town =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Small_Town,
+    .palettes = gTilesetPalettes_Small_Town,
+    .metatiles = gMetatiles_Small_Town,
+    .metatileAttributes = gMetatileAttributes_Small_Town,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Shady_Forest =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Shady_Forest,
+    .palettes = gTilesetPalettes_Shady_Forest,
+    .metatiles = gMetatiles_Shady_Forest,
+    .metatileAttributes = gMetatileAttributes_Shady_Forest,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Dojo =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Dojo,
+    .palettes = gTilesetPalettes_Dojo,
+    .metatiles = gMetatiles_Dojo,
+    .metatileAttributes = gMetatileAttributes_Dojo,
+    .callback = NULL,
+};
