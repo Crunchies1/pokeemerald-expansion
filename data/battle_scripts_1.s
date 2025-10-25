@@ -6651,6 +6651,14 @@ BattleScript_TargetFormChangeWithString::
 	waitmessage B_WAIT_TIME_LONG
 	return
 
+BattleScript_BattlerEvolutionWithString::
+	pause 5
+	call BattleScript_AbilityPopUpScripting
+	call BattleScript_BattlerFormChangeNoPopup
+	printstring STRINGID_PKMNEVOLVED
+	waitmessage B_WAIT_TIME_LONG
+	return
+
 BattleScript_TargetFormChangeWithStringNoPopup::
 	call BattleScript_TargetFormChangeNoPopup
 	printstring STRINGID_PKMNTRANSFORMED
@@ -7889,6 +7897,17 @@ BattleScript_SoundproofProtected::
 
 BattleScript_IceFaceNullsDamage::
 	call BattleScript_TargetFormChangeWithString
+	return
+
+BattleScript_CharmeleonEvolution::
+    playanimation BS_SCRIPTING, B_ANIM_HANGED_ON
+	call BattleScript_BattlerEvolutionWithString
+	playanimation BS_SCRIPTING, B_ANIM_SEA_OF_FIRE
+	waitanimation
+	healthbarupdate BS_SCRIPTING
+	datahpupdate BS_SCRIPTING
+	printstring STRINGID_SRCPKMNREGAINEDHEALTH
+	jumptocalledmove TRUE
 	return
 
 BattleScript_DazzlingProtected::

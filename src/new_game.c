@@ -46,6 +46,7 @@
 #include "union_room_chat.h"
 #include "constants/map_groups.h"
 #include "constants/items.h"
+#include "constants/heal_locations.h"
 #include "difficulty.h"
 #include "follower_npc.h"
 
@@ -131,7 +132,10 @@ static void ClearFrontierRecord(void)
 
 static void WarpToTruck(void)
 {
-    SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
+    // TODO: Uncomment in release
+    // SetWarpDestination(MAP_GROUP(MAP_INSIDE_OF_TRUCK), MAP_NUM(MAP_INSIDE_OF_TRUCK), WARP_ID_NONE, -1, -1);
+    // ------------
+    SetWarpDestinationToHealLocation(HEAL_LOCATION_EVER_GRANDE_CITY);
     WarpIntoMap();
 }
 

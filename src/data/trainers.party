@@ -14120,21 +14120,23 @@ Level: 29
 IVs: 12 HP / 12 Atk / 12 Def / 12 SpA / 12 SpD / 12 Spe
 
 === TRAINER_MAY_RUSTBORO_TREECKO ===
-Name: MAY
+Name: BRENDAN
 Class: Rival
-Pic: May
-Gender: Female
-Music: Female
+Pic: Brendan
+Gender: Male
+Music: Male
 Double Battle: No
-AI: Basic Trainer
+AI: Smart Trainer
 
-Lotad
-Level: 13
-IVs: 3 HP / 3 Atk / 3 Def / 3 SpA / 3 SpD / 3 Spe
-
-Torchic
-Level: 15
-IVs: 6 HP / 6 Atk / 6 Def / 6 SpA / 6 SpD / 6 Spe
+Charmeleon
+Level: 30
+Ability: Charmeleon Evolution
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+EVs: 252 HP / 48 Def / 196 SpD
+- Flamethrower
+- Flame Charge
+- Sunny Day
+- Dragon Pulse
 
 === TRAINER_MAY_RUSTBORO_TORCHIC ===
 Name: MAY
