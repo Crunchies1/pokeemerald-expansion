@@ -486,6 +486,8 @@ extern const u8 BattleScript_ToxicDebrisActivates[];
 extern const u8 BattleScript_EarthEaterActivates[];
 extern const u8 BattleScript_MimicryActivates[];
 extern const u8 BattleScript_IceFaceNullsDamage[];
+extern const u8 BattleScript_CharmeleonEvolution[];
+extern const u8 BattleScript_EvolutionHeal[];
 extern const u8 BattleScript_BattlerFormChangeWithStringEnd3[];
 extern const u8 BattleScript_DampPreventsAftermath[];
 extern const u8 BattleScript_HealingWishActivates[];

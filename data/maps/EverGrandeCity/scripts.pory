@@ -1,0 +1,141 @@
+raw `EverGrandeCity_MapScripts::
+	map_script MAP_SCRIPT_ON_TRANSITION, EverGrandeCity_OnTransition
+	.byte 0
+
+EverGrandeCity_OnTransition:
+	call_if_set FLAG_SYS_WEATHER_CTRL, Common_EventScript_SetAbnormalWeather
+    call_if_unset FLAG_TEST_RIVAL_EVER_GRANDE_CITY_DEFEATED, EverGrandeCity_EventScript_SetupBattleOne
+	end
+
+EverGrandeCity_EventScript_VictoryRoadSign::
+	msgbox EverGrandeCity_Text_EnteringVictoryRoad, MSGBOX_SIGN
+	end
+
+EverGrandeCity_EventScript_CitySign::
+	msgbox EverGrandeCity_Text_CitySign, MSGBOX_SIGN
+	end
+
+EverGrandeCity_EventScript_PokemonLeagueSign::
+	msgbox EverGrandeCity_Text_EnteringPokemonLeague, MSGBOX_SIGN
+	end
+
+EverGrandeCity_EventScript_SetVisitedEverGrande::
+	setflag FLAG_VISITED_EVER_GRANDE_CITY
+	setvar VAR_TEMP_1, 1
+	end
+
+EverGrandeCity_Text_EnteringVictoryRoad:
+	.string "ENTERING VICTORY ROAD$"
+
+EverGrandeCity_Text_EnteringPokemonLeague:
+	.string "ENTERING POKéMON LEAGUE\n"
+	.string "CENTER GATE$"
+
+EverGrandeCity_Text_CitySign:
+	.string "EVER GRANDE CITY\p"
+	.string "“The paradise of flowers, the sea,\n"
+	.string "and POKéMON.”$"
+`
+
+script EverGrandeCity_EventScript_PickPokemon{
+    lockall
+    showmonpic(SPECIES_AMPHAROS, 10, 3)
+    msgbox("Do you want to pick up this Pokemon?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES){
+        givemon(SPECIES_AMPHAROS, 36, ITEM_LEFTOVERS, ITEM_LUXURY_BALL, NATURE_MODEST, 0, MON_MALE, 0, 0, 0, 0, 0, 0, 31, 31, 31, 31, 31, 31, MOVE_NUZZLE, MOVE_THUNDERBOLT, MOVE_POWER_GEM, MOVE_DRAGON_TAIL, TRUE, FALSE, TYPE_ELECTRIC)
+        if (var(VAR_RESULT) != MON_GIVEN_TO_PARTY && var(VAR_RESULT) != MON_GIVEN_TO_PC){
+            hidemonpic()
+            msgbox("You don't have enough space in your party.")
+            waitmessage
+            releaseall
+            end
+        }
+
+        setflag(FLAG_SYS_POKEMON_GET)
+        msgbox("You picked up the Pokemon.")
+        removeobject(2)
+        setflag(FLAG_TEST_PICK_POKEMON_EVER_GRANDE_CITY)
+    }
+    else{
+        msgbox("You leave the Pokemon alone.")
+        waitmessage
+    }
+    hidemonpic()
+    releaseall
+    end
+}
+
+script EverGrandeCity_EventScript_PickSecondPokemon{
+    lockall
+    showmonpic(SPECIES_GOLEM_ALOLA, 10, 3)
+    msgbox("Do you want to pick up this Pokemon?", MSGBOX_YESNO)
+    if (var(VAR_RESULT) == YES){
+        givemon(SPECIES_GOLEM_ALOLA, 36, ITEM_LEFTOVERS, ITEM_LUXURY_BALL, NATURE_ADAMANT)
+        if (var(VAR_RESULT) != MON_GIVEN_TO_PARTY && var(VAR_RESULT) != MON_GIVEN_TO_PC){
+            hidemonpic()
+            msgbox("You don't have enough space in your party.")
+            waitmessage
+            releaseall
+            end
+        }
+
+        setflag(FLAG_SYS_POKEMON_GET)
+        msgbox("You picked up the Pokemon.")
+        removeobject(4)
+        setflag(FLAG_TEST_PICK_SECOND_POKEMON_EVER_GRANDE_CITY)
+    }
+    else{
+        msgbox("You leave the Pokemon alone.")
+        waitmessage
+    }
+    hidemonpic()
+    releaseall
+    end
+}
+
+script EverGrandeCity_EventScript_DebugNPC{
+    lockall
+    if (flag(FLAG_TEST_PICK_POKEMON_EVER_GRANDE_CITY) || flag(FLAG_TEST_PICK_SECOND_POKEMON_EVER_GRANDE_CITY)){
+        msgbox("Pokemon was picked up")
+    }
+    else{
+        msgbox("Pokemon was NOT picked up")
+    }
+    
+    if (flag(FLAG_TEST_RIVAL_NOT_APPEARS_EVER_GRANDE_CITY)){
+        msgbox("Rival will NOT appear")
+    }
+    else{
+        msgbox("Rival WILL appear")
+    }
+    releaseall
+    end
+}
+
+script EverGrandeCity_EventScript_SetupBattleOne{
+    if (!(flag(FLAG_TEST_PICK_POKEMON_EVER_GRANDE_CITY) || flag(FLAG_TEST_PICK_SECOND_POKEMON_EVER_GRANDE_CITY))){
+        setflag(FLAG_TEST_RIVAL_NOT_APPEARS_EVER_GRANDE_CITY)
+    }
+    else{
+        clearflag(FLAG_TEST_RIVAL_NOT_APPEARS_EVER_GRANDE_CITY)
+    }
+    end
+}
+
+script EverGrandeCity_EventScript_PokemonBattleOne{
+    trainerbattle_single(TRAINER_MAY_RUSTBORO_TREECKO, Rival_IntroText, Rival_DefeatText)
+    msgbox(Rival_PostBattleText, MSGBOX_AUTOCLOSE)
+    waitmessage
+    end
+}
+
+text Rival_IntroText{
+    "Hello, I'm Rival!"
+}
+text Rival_DefeatText{
+    "I lost!"
+}
+text Rival_PostBattleText{
+    "Good game!"
+}
+

@@ -2409,4 +2409,17 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .cantBeSwapped = TRUE,
         .cantBeTraced = TRUE,
     },
+
+    [ABILITY_CHARMELEON_EVOLUTION] =
+    {
+        .name = _("Strong Will"),
+        .description = COMPOUND_STRING("Evolves upon defeat."),
+        .aiRating = 10,
+        .cantBeCopied = TRUE,
+        .cantBeSwapped = TRUE,
+        .cantBeTraced = TRUE,
+        .cantBeSuppressed = TRUE,
+        .cantBeOverwritten = TRUE,
+        .failsOnImposter = TRUE,
+    },
 };

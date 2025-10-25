@@ -64,6 +64,7 @@ enum FirstTurnEventsStates
     FIRST_TURN_EVENTS_END,
 };
 
+void SetCustomTrainerAbilityIfNeeded(u32 battler);
 void CB2_InitBattle(void);
 void BattleMainCB2(void);
 void CB2_QuitRecordedBattle(void);

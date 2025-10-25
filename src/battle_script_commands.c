@@ -1939,6 +1939,16 @@ static void Cmd_adjustdamage(void)
             gLastUsedAbility = ABILITY_STURDY;
             gBattleStruct->moveResultFlags[battlerDef] |= MOVE_RESULT_STURDIED;
         }
+        else if (GetBattlerAbility(battlerDef) == ABILITY_CHARMELEON_EVOLUTION && gBattleMons[battlerDef].species == SPECIES_CHARMELEON)
+        {
+            enduredHit |= 1u << battlerDef;
+            gSpecialStatuses[battlerDef].enduredDamage = TRUE;
+            RecordAbilityBattle(battlerDef, ABILITY_CHARMELEON_EVOLUTION);
+            gLastUsedAbility = ABILITY_CHARMELEON_EVOLUTION;
+            gBattleStruct->moveResultFlags[battlerDef] |= MOVE_RESULT_STURDIED;
+            gDisableStructs[battlerDef].charmeleonEvolution = TRUE;
+            // Form change will be done after attack animation in Cmd_resultmessage.
+        }
         else if (holdEffect == HOLD_EFFECT_FOCUS_SASH && IsBattlerAtMaxHp(battlerDef))
         {
             enduredHit |= 1u << battlerDef;
@@ -2574,8 +2584,41 @@ static void Cmd_resultmessage(void)
         if (GetBattlerPartyState(gBattlerTarget)->changedSpecies == SPECIES_NONE)
             GetBattlerPartyState(gBattlerTarget)->changedSpecies = gBattleMons[gBattlerTarget].species;
         gBattleMons[gBattlerTarget].species = SPECIES_EISCUE_NOICE;
-        gBattleScripting.battler = gBattlerTarget; // For STRINGID_PKMNTRANSFORMED
+        gBattleScripting.battler = gBattlerTarget;
         BattleScriptCall(BattleScript_IceFaceNullsDamage);
+        return;
+    }
+
+    if (gDisableStructs[gBattlerTarget].charmeleonEvolution)
+    {
+        u32 transformingBattler = gBattlerTarget; // Store the original target
+        
+        gDisableStructs[transformingBattler].charmeleonEvolution = FALSE;
+        if (GetBattlerPartyState(transformingBattler)->changedSpecies == SPECIES_NONE)
+            GetBattlerPartyState(transformingBattler)->changedSpecies = gBattleMons[transformingBattler].species;
+        
+        // Set up the battler for battle script operations
+        gBattleScripting.battler = transformingBattler; // This controls which Pokémon the script affects
+        gBattleMons[transformingBattler].species = SPECIES_CHARIZARD;
+        StringCopy_Nickname(gBattleMons[transformingBattler].nickname, GetSpeciesName(SPECIES_CHARIZARD));
+        struct Pokemon *mon = GetBattlerMon(transformingBattler);
+        SetMonData(mon, MON_DATA_NICKNAME, GetSpeciesName(SPECIES_CHARIZARD));
+        gBattleMons[transformingBattler].status1 = 0;
+
+        // Calculate healing amount (negative damage = healing)
+        s32 currentHP = gBattleMons[transformingBattler].hp;
+        s32 targetHP = (gBattleMons[transformingBattler].maxHP * 80) / 100;
+        s32 healAmount = targetHP - currentHP;
+
+        // Set the damage as negative (healing) for the transforming battler
+        gBattleStruct->moveDamage[transformingBattler] = -healAmount;
+
+        // Set up move AFTER storing the transforming battler info
+        gCalledMove = MOVE_FLAMETHROWER;
+        gBattlerAttacker = transformingBattler; // The transformed Pokémon becomes the attacker
+        gBattlerTarget = GetBattleMoveTarget(MOVE_FLAMETHROWER, NO_TARGET_OVERRIDE);
+
+        BattleScriptCall(BattleScript_CharmeleonEvolution);
         return;
     }
 
