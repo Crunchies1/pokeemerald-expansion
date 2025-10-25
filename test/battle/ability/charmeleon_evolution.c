@@ -4,16 +4,15 @@
 SINGLE_BATTLE_TEST("Charmeleon Evolution prevents KOs and triggers form change")
 {
     GIVEN {
-        PLAYER(SPECIES_CHARMELEON) { Ability(ABILITY_CHARMELEON_EVOLUTION); MaxHP(100); HP(5); }
-        OPPONENT(SPECIES_WOBBUFFET) { Level(100); };
+        PLAYER(SPECIES_WOBBUFFET) { Level(100); MaxHP(100); HP(1); };
+        OPPONENT(SPECIES_CHARMELEON) { Ability(ABILITY_CHARMELEON_EVOLUTION); MaxHP(100); HP(5); }
     } WHEN {
-        TURN { MOVE(opponent, MOVE_SEISMIC_TOSS); }
+        TURN { MOVE(player, MOVE_SEISMIC_TOSS); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SEISMIC_TOSS, opponent);
-        HP_BAR(player, hp: 1);
+        ANIMATION(ANIM_TYPE_MOVE, MOVE_SEISMIC_TOSS, player);
+        HP_BAR(opponent, hp: 1);
+        ABILITY_POPUP(opponent, ABILITY_CHARMELEON_EVOLUTION);
         HP_BAR(opponent);
-        ABILITY_POPUP(player, ABILITY_CHARMELEON_EVOLUTION);
-        MESSAGE("Charmeleon evolved due to it's will to survive!");
-        HP_BAR(player);
+        HP_BAR(player, hp: 0);
     }
 }
